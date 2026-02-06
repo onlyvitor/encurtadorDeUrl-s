@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import urlShorterRoute from './routes/urlShorterRoute.js';
 
