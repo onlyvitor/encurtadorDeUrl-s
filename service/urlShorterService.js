@@ -14,6 +14,7 @@ class UrlShorterService {
             const code = nanoid(8);
 
             await urlRepo.connectDB();
+
             const save = await this.urlRepo.save(url, code);
             console.log('URL salva no banco de dados:', save);
 
@@ -27,6 +28,12 @@ class UrlShorterService {
     }
     }
     
+     async getUrl(code) {
+        await urlRepo.connectDB();
+        const url = await this.urlRepo.findByCode(code);
+        console.log('URL encontrada:', url);
+        return url.originalUrl;
+    }
     
 }
 export default UrlShorterService;

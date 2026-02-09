@@ -1,12 +1,14 @@
 import 'dotenv/config';
 import express from 'express';
 import urlShorterRoute from './routes/urlShorterRoute.js';
+import getUrlRoute from './routes/getUrlRoute.js';
 
 const app = express();
 app.use(express.json());
 const PORT = 3000;
 
 app.use('/shorten', urlShorterRoute);
+app.use('/', getUrlRoute);
 
 app.get('/', (req, res) => {
   res.status(200).send('Hello World!');

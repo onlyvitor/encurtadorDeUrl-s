@@ -18,4 +18,15 @@ function save(originalUrl, code) {
   return newUrl.save();
 }
 
-export default { connectDB, save };
+async function findByCode(code) {
+  const Url = UrlModel;
+  await Url.updateOne({ code }, { $inc: { clicks: 1 } })
+  return Url.findOne({ code }).exec();
+}
+
+async function allUrls() {
+  const Url = UrlModel;
+  return Url.find({})
+}
+
+export default { connectDB, save, findByCode, allUrls };
