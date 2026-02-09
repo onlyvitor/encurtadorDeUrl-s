@@ -15,9 +15,7 @@ Um encurtador de URLs moderno e completo que permite criar links curtos personal
 
 - Backend: Node.js + Express
 - Banco de dados: MongoDB + Mongoose
-- Geração de códigos: nanoid / shortid
-- Geolocalização: geoip-lite ou IP-API
-- User Agent parsing: ua-parser-js
+- Geração de códigos: nanoid
 
 ## Pré-requisitos
 
@@ -29,7 +27,7 @@ Um encurtador de URLs moderno e completo que permite criar links curtos personal
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/encurtador-url.git
+git clone https://github.com/onlyvitor/encurtadorDeUrl-s
 cd encurtador-url
 
 # Instale as dependências
@@ -44,36 +42,7 @@ cp .env.example .env
 Edite o arquivo `.env` com suas credenciais:
 
 ```env
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/encurtador
-BASE_URL=http://localhost:3000
-NODE_ENV=development
-```
-
-## Estrutura do Banco de Dados
-
-### Collection: urls
-
-```javascript
-{
-  _id: ObjectId,
-  originalUrl: String,
-  shortCode: String,
-  clicks: [
-    {
-      timestamp: Date,
-      ip: String,
-      country: String,
-      city: String,
-      userAgent: String,
-      device: String,
-      browser: String,
-      os: String
-    }
-  ],
-  createdAt: Date,
-  updatedAt: Date
-}
+MONGO_URL=SEU_URL_MONGO_AQUI
 ```
 
 ## Executando o projeto
@@ -107,8 +76,7 @@ Acesse http://localhost:3000 no navegador.
   "success": true,
   "data": {
     "originalUrl": "https://exemplo.com/pagina-muito-longa",
-    "shortCode": "abc123",
-    "shortUrl": "http://localhost:3000/abc123",
+    "code": "abc123",
     "createdAt": "2024-02-09T10:30:00.000Z"
   }
 }
@@ -126,7 +94,7 @@ Exemplo: GET /abc123
 
 ### 3. Listar todas as URLs
 
-**GET** `/urls`
+**GET** `/find/urls`
 
 **Resposta:**
 
@@ -138,11 +106,8 @@ Exemplo: GET /abc123
       "_id": "65c1234567890abcdef12345",
       "originalUrl": "https://exemplo.com/pagina-muito-longa",
       "shortCode": "abc123",
-      "shortUrl": "http://localhost:3000/abc123",
-      "totalClicks": 42,
-      "clicks": [...],
-      "createdAt": "2024-02-09T10:30:00.000Z",
-      "lastClickedAt": "2024-02-09T15:45:00.000Z"
+      "clicks": 42,,
+      "createdAt": "2024-02-09T10:30:00.000Z"
     }
   ],
   "total": 1
@@ -151,15 +116,7 @@ Exemplo: GET /abc123
 
 ## Informações Catalogadas por Clique
 
-Cada vez que alguém acessa um link encurtado, o sistema registra:
-
-- Timestamp: Data e hora exata do clique
-- IP Address: Endereço IP do visitante
-- Geolocalização: País e cidade de origem
-- User Agent: String completa do navegador
-- Dispositivo: Desktop, Mobile ou Tablet
-- Navegador: Chrome, Firefox, Safari, Edge, etc
-- Sistema Operacional: Windows, MacOS, Linux, Android, iOS
+Cada vez que alguém acessa um link encurtado, o sistema registra.
 
 ## Casos de Uso
 
@@ -182,37 +139,10 @@ curl http://localhost:3000/urls
 # 4. Cada acesso é automaticamente catalogado com todas as informações
 ```
 
-## Dependências Principais
-
-```json
-{
-  "express": "^4.18.2",
-  "mongoose": "^8.0.0",
-  "nanoid": "^3.3.7",
-  "ua-parser-js": "^1.0.37",
-  "geoip-lite": "^1.4.7",
-  "dotenv": "^16.3.1",
-  "cors": "^2.8.5"
-}
-```
-
 ## Segurança
 
 - Validação de URLs antes do encurtamento
 - Sanitização de inputs
-- Proteção contra URLs maliciosas
-- Rate limiting (recomendado para produção)
-- CORS configurado
-
-## Melhorias Futuras
-
-- Autenticação de usuários
-- URLs personalizadas (custom alias)
-- Expiração de links
-- Dashboard com gráficos
-- API de estatísticas por link
-- QR Code para cada URL
-- Exportação de dados (CSV/JSON)
 
 ## Contribuindo
 
@@ -223,15 +153,3 @@ Contribuições são bem-vindas! Sinta-se à vontade para:
 3. Commit suas mudanças (git commit -m 'Adiciona nova funcionalidade')
 4. Push para a branch (git push origin feature/nova-funcionalidade)
 5. Abrir um Pull Request
-
-## Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-## Autor
-
-Seu Nome - @seu_twitter
-
----
-
-Feito com dedicação por [Seu Nome]
