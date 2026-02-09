@@ -1,5 +1,6 @@
 import express from 'express';
 import UrlShorterService from '../service/urlShorterService.js';
+import { get } from 'mongoose';
 const getUrlRoute = express.Router();
 const urlShorterService = new UrlShorterService();
 
@@ -15,6 +16,16 @@ getUrlRoute.get('/:code', async (req, res, next) => {
     }
   } catch (error) {
     console.error('Error retrieving URL:', error);
+    next(error);
+  }
+});
+
+getUrlRoute.get('/find/urls', async (req, res, next) => {
+  try {
+    const urls = await urlShorterService.allUrls();
+    res.status(200).send(urls);
+  } catch (error) {
+    console.error('Error retrieving all URLs:', error);
     next(error);
   }
 });

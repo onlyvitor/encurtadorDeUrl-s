@@ -35,5 +35,11 @@ class UrlShorterService {
         return url.originalUrl;
     }
     
+    async allUrls() {
+        await urlRepo.connectDB();
+        const urls = await this.urlRepo.allUrls();
+        console.log('Todas as URLs:', urls);
+        return urls;
+    }
 }
 export default UrlShorterService;

@@ -10,7 +10,7 @@ const PORT = 3000;
 app.use('/shorten', urlShorterRoute);
 app.use('/', getUrlRoute);
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
   res.status(200).send('Hello World!');
 });
 

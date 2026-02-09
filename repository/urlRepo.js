@@ -26,7 +26,9 @@ async function findByCode(code) {
 
 async function allUrls() {
   const Url = UrlModel;
-  return Url.find({})
+  const result = await Url.find({}).exec();
+  console.log('Result from allUrls:', result);
+  return result;
 }
 
 export default { connectDB, save, findByCode, allUrls };
