@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import UrlModel from "./urlModel.js";
 
 async function connectDB() {
   if (!process.env.MONGO_URL) {
@@ -6,10 +7,15 @@ async function connectDB() {
   }
   try {
     await mongoose.connect(process.env.MONGO_URL);
-    console.log('Conectado ao MongoDB');
   } catch (error) {
     console.error('Erro ao conectar ao MongoDB:', error);
   }
 }
 
-export default connectDB;
+function save(originalUrl, code) {
+  const Url = UrlModel;
+  const newUrl = new Url({ originalUrl, code });
+  return newUrl.save();
+}
+
+export default { connectDB, save };
