@@ -32,6 +32,9 @@ class UrlShorterService {
         await urlRepo.connectDB();
         const url = await this.urlRepo.findByCode(code);
         console.log('URL encontrada:', url);
+        if (!url) {
+            return null;
+        }
         return url.originalUrl;
     }
     

@@ -9,11 +9,11 @@ getUrlRoute.get('/:code', async (req, res, next) => {
     const code = req.params.code;
     const originalUrl = await urlShorterService.getUrl(code);
 
-    if (originalUrl) {
+    if (originalUrl===null || originalUrl===undefined) {
+      res.status(404).send({ error: 'URL not found' });
+    } else {
       res.status(302).redirect(originalUrl);
       console.log(res.headers);
-    } else {
-      res.status(404).send({ error: 'URL not found' });
     }
   } catch (error) {
     console.error('Error retrieving URL:', error);
