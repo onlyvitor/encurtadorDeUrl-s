@@ -7,7 +7,7 @@
     "start": "node main.js",
     "start:dev": "nodemon main.js",
     "test": "vitest",
-    "test:watch": "vitest --watch",
+    "test:dev": "vitest --watch",
     "test:run": "vitest run"
   },
   "keywords": [],

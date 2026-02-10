@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { response } from 'express';
 import UrlShorterService from '../service/urlShorterService.js';
-import { get } from 'mongoose';
+
 const getUrlRoute = express.Router();
 const urlShorterService = new UrlShorterService();
 
@@ -11,6 +11,7 @@ getUrlRoute.get('/:code', async (req, res, next) => {
 
     if (originalUrl) {
       res.status(302).redirect(originalUrl);
+      console.log(res.headers);
     } else {
       res.status(404).send({ error: 'URL not found' });
     }
