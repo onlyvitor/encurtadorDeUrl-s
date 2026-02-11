@@ -3,6 +3,7 @@ name: continuos integration
 on: [
   pull_request, push
 ]
+  workflow_dispatch:
 
 jobs:
   continuos integration:
