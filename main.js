@@ -10,7 +10,12 @@ const app = express();
 app.use(express.json());
 const PORT = 3000;
 
-urlRepo.connectDB();
+async function startServer() {
+  await urlRepo.connectDB();
+  app.listen(PORT, () => {
+  console.log(`Server is running on port http://localhost:${PORT}`);
+});
+}
 
 app.use('/shorten', urlShorterRoute);
 app.use('/', getUrlRoute);
@@ -19,8 +24,8 @@ app.get('/home', (req, res) => {
   res.status(200).send('Hello World!');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test'){
+  startServer();
+}
 
 export default app;
