@@ -2,10 +2,13 @@ import 'dotenv/config';
 import express from 'express';
 import urlShorterRoute from './routes/urlShorterRoute.js';
 import getUrlRoute from './routes/getUrlRoute.js';
+import urlRepo from './repository/urlRepo.js';
 
 const app = express();
 app.use(express.json());
 const PORT = 3000;
+
+urlRepo.connectDB();
 
 app.use('/shorten', urlShorterRoute);
 app.use('/', getUrlRoute);

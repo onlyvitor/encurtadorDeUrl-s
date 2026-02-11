@@ -1,8 +1,9 @@
-import { test, expect, mock, vitest} from 'vitest'
+import { test, expect, mock, vitest, describe} from 'vitest'
 import request from 'supertest'
 import app from '../main.js'
 
-vitest.mock('../service/urlShorterService.js', () => {
+describe("urlShorterRoute",()=>{
+    vitest.mock('../service/urlShorterService.js', () => {
     return {
         default: class {
             async createShortUrl({ originalUrl }) {
@@ -23,4 +24,5 @@ test('POST /shorten - should return a short URL and 201 status code', async() =>
         
     expect(response.body).toHaveProperty('originalUrl', 'https://youtube.com');
     expect(response.body).toHaveProperty('shortUrl');
+})
 })

@@ -1,7 +1,8 @@
-import {test, expect, vitest, afterEach, beforeEach} from 'vitest'
+import {test, expect, vitest, afterEach, beforeEach, describe} from 'vitest'
 import request from 'supertest'
 import app from '../main.js'
 
+describe("getUrlRoute",()=>{
 vitest.mock('../service/urlShorterService.js', () => {
     return {
         default: class {
@@ -32,4 +33,5 @@ test('GET /find/urls - should return 200 status code and list of URLs', async() 
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
+})
 })

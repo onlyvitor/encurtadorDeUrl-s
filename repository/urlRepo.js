@@ -12,13 +12,13 @@ async function connectDB() {
   }
 }
 
-function save(originalUrl, code) {
+async function save(originalUrl, code) {
   const Url = UrlModel;
   const newUrl = new Url({ originalUrl, code });
   return newUrl.save();
 }
 
-async function findByCode(code) {
+async function findByCode(code) {;
   const Url = UrlModel;
   await Url.updateOne({ code }, { $inc: { clicks: 1 } })
   return Url.findOne({ code }).exec();

@@ -1,8 +1,9 @@
 import express, { response } from 'express';
 import UrlShorterService from '../service/urlShorterService.js';
+import urlRepo from '../repository/urlRepo.js';
 
 const getUrlRoute = express.Router();
-const urlShorterService = new UrlShorterService();
+const urlShorterService = new UrlShorterService(urlRepo);
 
 getUrlRoute.get('/:code', async (req, res, next) => {
   try {

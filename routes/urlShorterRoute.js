@@ -2,9 +2,10 @@ import express from 'express';
 import UrlShorterService from '../service/urlShorterService.js';
 import validateSchemaUrl from '../repository/urlSchema.js';
 import zod from 'zod';
+import urlRepo from '../repository/urlRepo.js';
 
 const urlShorterRoute = express.Router();
-const urlShorterService = new UrlShorterService();
+const urlShorterService = new UrlShorterService(urlRepo);
 
 urlShorterRoute.post('/', async (req, res, next) => {
   try {
