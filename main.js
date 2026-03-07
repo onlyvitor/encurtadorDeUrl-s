@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
-import urlShorterRoute from './routes/urlShorterRoute.js';
-import getUrlRoute from './routes/getUrlRoute.js';
+import UrlShorterRoute from './routes/urlShorterRoute.js';
+import GetUrlRoute from './routes/getUrlRoute.js';
 import urlRepo from './repository/urlRepo.js';
 
 //test for github actions
@@ -13,12 +13,15 @@ const PORT = 3000;
 async function startServer() {
   await urlRepo.connectDB();
   app.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
-});
+    console.log(`Server is running on port http://localhost:${PORT}`);
+  });
 }
 
-app.use('/shorten', urlShorterRoute);
-app.use('/', getUrlRoute);
+const urlShorterRoute = new UrlShorterRoute();
+const getUrlRoute = new GetUrlRoute();
+
+app.use('/shorten', urlShorterRoute.router);
+app.use('/', getUrlRoute.router);
 
 app.get('/home', (req, res) => {
   res.status(200).send('Hello World!');

@@ -4,27 +4,33 @@ import validateSchemaUrl from '../repository/urlSchema.js';
 import zod from 'zod';
 import urlRepo from '../repository/urlRepo.js';
 
-const urlShorterRoute = express.Router();
-const urlShorterService = new UrlShorterService(urlRepo);
+export default class UrlShorterRoute {
+  constructor({ urlShorterService = new UrlShorterService(urlRepo) } = {}) {
+    this.urlShorterService = urlShorterService;
+    this.router = express.Router();
+    this.registerRoutes();
+  }
 
-urlShorterRoute.post('/', async (req, res, next) => {
-  try {
-    const data = validateSchemaUrl.parse(req.body);
-    const result = await urlShorterService.createShortUrl(data);
+  registerRoutes() {
+    this.router.post('/', this.createShortUrl.bind(this));
+  }
 
-    const baseUrl = `${req.protocol}://${req.get('host')}`;
-    const shortUrl = `${baseUrl}/${result.code_Url}`;
+  async createShortUrl(req, res, next) {
+    try {
+      const data = validateSchemaUrl.parse(req.body);
+      const result = await this.urlShorterService.createShortUrl(data);
 
-    res.status(201).send({ originalUrl: result.originalUrl, shortUrl });
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const shortUrl = `${baseUrl}/${result.code_Url}`;
 
-  } catch (error) {
-    if (error instanceof zod.ZodError) {
-      console.log("Validation Error here!!!!!!!", error);
-      res.status(400).send({ error: 'Invalid URL format' });
-    } else {
-      next(error);
+      res.status(201).send({ originalUrl: result.originalUrl, shortUrl });
+    } catch (error) {
+      if (error instanceof zod.ZodError) {
+        console.log('Validation Error here!!!!!!!', error);
+        res.status(400).send({ error: 'Invalid URL format' });
+      } else {
+        next(error);
+      }
     }
   }
-});
-
-export default urlShorterRoute;
+}
